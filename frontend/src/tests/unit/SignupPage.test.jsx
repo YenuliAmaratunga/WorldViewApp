@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import SignupPage from "../pages/SignupPage";
+import SignupPage from "../../pages/SignupPage";
 import { BrowserRouter } from "react-router-dom";
 
 describe("SignupPage", () => {

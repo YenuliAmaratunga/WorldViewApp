@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import App from "../App";
+import Home from "../../pages/Home";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
 // Mock the country service functions
-vi.mock("../services/countryService", () => ({
+vi.mock("../../services/countryService", () => ({
   getAllCountries: vi.fn(() =>
     Promise.resolve([
       {
@@ -38,7 +38,7 @@ describe("Search feature", () => {
   it("filters countries by name when user types in the search input", async () => {
     render(
       <MemoryRouter>
-        <App />
+        <Home />
       </MemoryRouter>
     );
 
