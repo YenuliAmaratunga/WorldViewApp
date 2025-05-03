@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function CountryDetail() {
   const { code } = useParams();
@@ -61,6 +63,9 @@ function CountryDetail() {
   const isFavorited = favorites.includes(code);
 
   return (
+    <>
+      <Header />
+      <main className="pb-12"> 
     <div className="min-h-screen bg-gray-50 p-6 font-sans">
       <Link to="/" className="text-blue-600 hover:underline mb-4 inline-block">
         ⬅ Back to countries
@@ -100,6 +105,9 @@ function CountryDetail() {
         </div>
       </div>
     </div>
+    </main>
+      <Footer />
+    </>
   );
 }
 
