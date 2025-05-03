@@ -2,34 +2,77 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 function CountryDetail() {
-  // Extract the country code from the URL using useParams (e.g., "LKA" for Sri Lanka)
   const { code } = useParams();
-
-  // This state will hold the data for a single country
   const [country, setCountry] = useState(null);
+  const [user, setUser] = useState(null);
+  const [favorites, setFavorites] = useState([]);
 
-  // useEffect runs once when the component loads or when the code param changes
+  // Fetch the selected country from the API
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/alpha/${code}`)
       .then((res) => res.json())
-      .then((data) => setCountry(data[0])) // data comes as an array with one object
+      .then((data) => setCountry(data[0]))
       .catch((err) => console.error("Error loading country", err));
   }, [code]);
 
-  // If the data hasn't loaded yet, show a loading message
+  // Load user and their favorites from localStorage
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (storedToken && storedUser) {
+      setUser({ ...storedUser, token: storedToken });
+
+      fetch("http://localhost:5000/api/users/favorites", {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setFavorites(data.favorites || []));
+    }
+  }, []);
+
+  const toggleFavorite = async () => {
+    if (!user || !user.token) {
+      alert("Please log in to favorite this country.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/users/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ countryCode: code }),
+      });
+
+      const data = await res.json();
+      setFavorites(data.favorites);
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+    }
+  };
+
   if (!country) return <div className="p-6">Loading country data...</div>;
+
+  const isFavorited = favorites.includes(code);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 font-sans">
-      {/* Back Button */}
       <Link to="/" className="text-blue-600 hover:underline mb-4 inline-block">
         ⬅ Back to countries
       </Link>
 
-      {/* Country Name */}
-      <h1 className="text-3xl font-bold mb-6">{country.name.common}</h1>
+      <div className="flex items-center gap-4 mb-6">
+        <h1 className="text-3xl font-bold">{country.name.common}</h1>
+        <button onClick={toggleFavorite} className="text-2xl">
+          {isFavorited ? "❤️" : "🤍"}
+        </button>
+      </div>
 
-      {/* Flag */}
       <img
         src={country.flags.png}
         alt={`Flag of ${country.name.common}`}
@@ -37,37 +80,22 @@ function CountryDetail() {
         className="w-60 mb-6 shadow-md rounded"
       />
 
-      {/* Grid layout for details */}
       <div className="grid gap-4 md:grid-cols-2">
-        {/* LEFT SIDE: Main country info */}
         <div>
-          <p>
-            <strong>Official Name:</strong> {country.name.official}
-          </p>
-          <p>
-            <strong>Capital:</strong> {country.capital?.[0] || "N/A"}
-          </p>
-          <p>
-            <strong>Region:</strong> {country.region}
-          </p>
-          <p>
-            <strong>Population:</strong> {country.population.toLocaleString()}
-          </p>
+          <p><strong>Official Name:</strong> {country.name.official}</p>
+          <p><strong>Capital:</strong> {country.capital?.[0] || "N/A"}</p>
+          <p><strong>Region:</strong> {country.region}</p>
+          <p><strong>Population:</strong> {country.population.toLocaleString()}</p>
         </div>
 
-        {/* RIGHT SIDE: Languages */}
         <div>
-          <p>
-            <strong>Languages:</strong>
-          </p>
+          <p><strong>Languages:</strong></p>
           <ul className="list-disc pl-6">
-            {country.languages ? (
-              Object.values(country.languages).map((lang, index) => (
-                <li key={index}>{lang}</li>
-              ))
-            ) : (
-              <li>N/A</li>
-            )}
+            {country.languages
+              ? Object.values(country.languages).map((lang, index) => (
+                  <li key={index}>{lang}</li>
+                ))
+              : <li>N/A</li>}
           </ul>
         </div>
       </div>

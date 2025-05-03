@@ -15,6 +15,7 @@ function App() {
   const [selectedLanguages, setSelectedLanguages] = useState([]); // selected languages
 const [user, setUser] = useState(null);
 const [favorites, setFavorites] = useState([]);
+const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
 
   //runs only once when the app loads
   useEffect(() => {
@@ -160,32 +161,51 @@ if (storedToken && storedUser) {
         </p>
       )}
 
+<div className="mt-4">
+  <label className="inline-flex items-center">
+    <input
+      type="checkbox"
+      checked={showOnlyFavorites}
+      onChange={(e) => setShowOnlyFavorites(e.target.checked)}
+      className="form-checkbox h-4 w-4 text-green-600"
+    />
+    <span className="ml-2 text-sm text-gray-700">Show only favorites</span>
+  </label>
+</div>
+
+
       {/* List of countries*/}
       <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {countries.map((country, index) => (
-          <li
-            key={index}
-            className="bg-white p-4 shadow rounded-md border border-gray-100"
-          >
-            <Link
-              to={`/country/${country.cca3}`}
-              className="font-semibold text-lg text-blue-700 hover:underline"
-            >
-              {country.name.common}
-            </Link>
-            <button
-  onClick={() => toggleFavorite(country.cca3)}
-  className="text-xl mt-2"
->
-  {favorites.includes(country.cca3) ? '❤️' : '🤍'}
-</button>
+      {countries
+  .filter((country) =>
+    showOnlyFavorites ? favorites.includes(country.cca3) : true
+  )
+  .map((country, index) => (
+    <li
+      key={index}
+      className="bg-white p-4 shadow rounded-md border border-gray-100"
+    >
+      <Link
+        to={`/country/${country.cca3}`}
+        className="font-semibold text-lg text-blue-700 hover:underline"
+      >
+        {country.name.common}
+      </Link>
 
-            <br />
-            <span className="text-sm text-gray-600">
-              🌍 Region: {country.region}
-            </span>
-          </li>
-        ))}
+      <button
+        onClick={() => toggleFavorite(country.cca3)}
+        className="text-xl mt-2"
+      >
+        {favorites.includes(country.cca3) ? "❤️" : "🤍"}
+      </button>
+
+      <br />
+      <span className="text-sm text-gray-600">
+        🌍 Region: {country.region}
+      </span>
+    </li>
+))}
+
       </ul>
     </div>
   );
