@@ -6,6 +6,8 @@ import {
   searchCountriesByName,
   filterCountriesByRegion,
 } from "./services/countryService";
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   //State variable to hold the fetched array of country data
@@ -83,6 +85,9 @@ if (storedToken && storedUser) {
   
 
   return (
+    <>
+      <Header />
+      <main className="pb-12"> {/* Padding so footer doesn’t overlap */}
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-3xl font-bold text-darkGreen mb-6 font-sans">
         🌍 WorldViewApp – Country Explorer
@@ -208,6 +213,9 @@ if (storedToken && storedUser) {
 
       </ul>
     </div>
+    </main>
+      <Footer />
+    </>
   );
 }
 
