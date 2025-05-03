@@ -8,21 +8,35 @@ import jwt from "jsonwebtoken";
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
+  if (!name || !email || !password)
+    return res.status(400).json({ message: "All fields are required" });
+
+  // Email regex validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
+  // Password regex validation
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({
+      message: "Password must be at least 8 characters with letters and numbers",
+    });
+  }
+  
+  const existing = await User.findOne({ email });
+  if (existing)
+    return res.status(400).json({ message: "Email already exists" });
+
   try {
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
+    const user = await User.create({ name, email, password });
 
-    // Create new user
-    const newUser = new User({ name, email, password });
-    await newUser.save();
-
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      message: "User registered successfully. Please log in.",
+    });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error registering user", error: err.message });
+    res.status(500).json({ message: "Failed to register user", error: err.message });
   }
 };
 
