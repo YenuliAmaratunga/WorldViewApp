@@ -13,6 +13,8 @@ function App() {
   const [regions, setRegions] = useState([]); // will hold the list of unique regions
   const [languages, setLanguages] = useState([]); // list of unique languages
   const [selectedLanguages, setSelectedLanguages] = useState([]); // selected languages
+const [user, setUser] = useState(null);
+const [favorites, setFavorites] = useState([]);
 
   //runs only once when the app loads
   useEffect(() => {
@@ -36,8 +38,48 @@ function App() {
         }
       });
       setLanguages([...languageSet].sort());
+
+      const storedToken = localStorage.getItem("token");
+const storedUser = JSON.parse(localStorage.getItem("user"));
+
+if (storedToken && storedUser) {
+  setUser({ ...storedUser, token: storedToken });
+
+  fetch("http://localhost:5000/api/users/favorites", {
+    headers: {
+      Authorization: `Bearer ${storedToken}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => setFavorites(data.favorites || []));
+}
+
     });
   }, []);
+
+  const toggleFavorite = async (code) => {
+    if (!user || !user.token) {
+      alert("Please log in first to favorite countries");
+      return;
+    }
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/users/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ countryCode: code }),
+      });
+  
+      const data = await res.json();
+      setFavorites(data.favorites);
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+    }
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -131,6 +173,12 @@ function App() {
             >
               {country.name.common}
             </Link>
+            <button
+  onClick={() => toggleFavorite(country.cca3)}
+  className="text-xl mt-2"
+>
+  {favorites.includes(country.cca3) ? '❤️' : '🤍'}
+</button>
 
             <br />
             <span className="text-sm text-gray-600">
