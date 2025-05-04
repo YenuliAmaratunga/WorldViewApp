@@ -1,5 +1,8 @@
 # WorldViewApp – Country Explorer
 
+**Name**: Amaratunga Y.B.
+**Student no**: IT22078650
+
 WorldViewApp is a full-stack web application built using **React**, **Node.js**, and **MongoDB Atlas**, allowing users to explore countries, search and filter them, and manage personal favorites. The app integrates live data from the **REST Countries API**.
 
 
@@ -49,3 +52,24 @@ To execute all unit and integration tests:
 
 ```bash
 npm run test
+
+## Setup Instructions
+
+1. Clone the Repository
+    git clone https://github.com/<your-username>/worldview-app.git
+    cd worldview-app
+
+2. Install Frontend Dependencies
+    cd frontend
+    npm install
+
+3. Install & Run Backend Locally
+    cd ../backend
+    npm install
+    npm run dev
+
+4. Start the Frontend Locally
+    cd ../frontend
+    npm run dev
+
+The app should now be running at: http://localhost:5173
