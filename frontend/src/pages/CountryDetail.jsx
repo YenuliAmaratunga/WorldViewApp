@@ -7,13 +7,30 @@ import { API_BASE_URL } from "../config";
 function CountryDetail() {
   const { code } = useParams();
   const [country, setCountry] = useState(null);
+  const [borders, setBorders] = useState([]);
   const [user, setUser] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/alpha/${code}`)
       .then((res) => res.json())
-      .then((data) => setCountry(data[0]))
+      .then(async (data) => {
+        const countryData = data[0];
+        setCountry(countryData);
+
+        // Fetch bordering country names using CCA3 codes
+        if (countryData.borders?.length > 0) {
+          const borderRes = await fetch(`https://restcountries.com/v3.1/alpha?codes=${countryData.borders.join(",")}`);
+          const borderData = await borderRes.json();
+          const formattedBorders = borderData.map(c => ({
+            name: c.name.common,
+            cca3: c.cca3
+          }));
+          setBorders(formattedBorders);
+        } else {
+          setBorders([]);
+        }
+      })
       .catch((err) => console.error("Error loading country", err));
   }, [code]);
 
@@ -68,7 +85,7 @@ function CountryDetail() {
         <div className="max-w-5xl mx-auto px-6">
           <Link
             to="/"
-            className="text-oceanGreen hover:underline text-l font-medium inline-block mb-6"
+            className="text-oceanGreen hover:underline text-lg font-medium inline-block mb-6"
           >
             ⬅ Back to countries
           </Link>
@@ -123,6 +140,25 @@ function CountryDetail() {
                 </ul>
               </div>
             </div>
+
+            {/* Bordering Countries */}
+            {borders.length > 0 && (
+              <div className="mt-10">
+                <h2 className="text-xl font-bold text-deepTeal mb-2">Bordering Countries:</h2>
+                <ul className="flex flex-wrap gap-3 text-sm">
+                  {borders.map((border, i) => (
+                    <li key={i}>
+                      <Link
+                        to={`/country/${border.cca3}`}
+                        className="bg-aquaMint hover:bg-skyBlue text-deepTeal font-medium px-3 py-1 rounded-full shadow-sm transition"
+                      >
+                        {border.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </main>
