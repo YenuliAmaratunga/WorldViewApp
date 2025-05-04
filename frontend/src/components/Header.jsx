@@ -14,7 +14,10 @@ const Header = () => {
     localStorage.clear();
     setUser(null);
     toast.info("You have been logged out.");
-    window.location.reload();
+
+    setTimeout(() => {
+      window.location.reload(); // Force state reset
+    }, 1000); // enough for toast
   };
 
   return (
@@ -58,6 +61,5 @@ const Header = () => {
     </header>
   );
 };
-
 
 export default Header;
