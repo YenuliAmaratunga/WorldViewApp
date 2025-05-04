@@ -13,8 +13,12 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.clear();
     setUser(null);
-    window.location.reload();
     toast.info("You have been logged out.");
+
+    // Delay reload to allow toast to appear
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000); // 1 second is enough
   };
 
   return (
@@ -58,6 +62,5 @@ const Header = () => {
     </header>
   );
 };
-
 
 export default Header;
