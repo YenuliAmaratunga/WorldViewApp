@@ -85,9 +85,9 @@ function CountryDetail() {
   const isFavorited = favorites.includes(code);
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-aquaMint via-oceanGreen to-aquaMint">
       <Header />
-      <main className="min-h-screen w-full bg-gradient-to-br from-aquaMint via-oceanGreen to-aquaMint p-6">
+      <main className="min-h-screen w-full p-6">
         <div className="max-w-5xl mx-auto px-6">
           <Link
             to="/"
@@ -206,7 +206,7 @@ function CountryDetail() {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 
