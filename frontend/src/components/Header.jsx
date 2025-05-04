@@ -11,11 +11,10 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.clear();
     setUser(null);
-    toast.info("You have been logged out.");
     window.location.reload();
+    toast.info("You have been logged out.");
   };
 
   return (

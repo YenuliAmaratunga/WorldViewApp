@@ -74,7 +74,8 @@ function CountryDetail() {
 
   const toggleFavorite = async () => {
     if (!user || !user.token) {
-      alert("Please log in to favorite this country.");
+      //alert("Please log in to favorite this country.");
+      toast.info("Please log in to favorite this country.");
       return;
     }
 

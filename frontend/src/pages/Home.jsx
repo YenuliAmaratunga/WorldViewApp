@@ -9,6 +9,7 @@ import {
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { API_BASE_URL } from "../config";
+import { toast } from "react-toastify";
 
 function Home() {
   //State variable to hold the fetched array of country data
@@ -72,7 +73,8 @@ function Home() {
 
   const toggleFavorite = async (code) => {
     if (!user || !user.token) {
-      alert("Please log in first to favorite countries");
+      //alert("Please log in first to favorite countries");
+      toast.info("Please log in first to favorite countries");
       return;
     }
 
