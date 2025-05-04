@@ -17,30 +17,36 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-deepTeal text-white font-[Kalnia] shadow-md">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-white hover:text-skyBlue transition">
+    <header className="bg-deepTeal text-white font-kalnia shadow-md">
+      <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+        {/* App Logo/Name */}
+        <Link
+          to="/"
+          className="text-3xl font-bold text-white hover:text-skyBlue transition"
+        >
           🌍 WorldViewApp
         </Link>
-        <div className="text-sm space-x-4">
+
+        {/* Navigation links */}
+        <div className="flex items-center space-x-6 text-base">
           {user ? (
             <button
-              onClick={handleLogout}
-              className="text-white hover:text-aquaMint transition"
-            >
-              Logout
-            </button>
+            onClick={handleLogout}
+            className="text-white hover:text-aquaMint transition font-semibold"
+          >
+            Logout
+          </button>
           ) : (
             <>
               <Link
                 to="/login"
-                className="text-white hover:text-aquaMint transition"
+                className="hover:text-aquaMint transition font-semibold"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="text-white hover:text-aquaMint transition"
+                className="hover:text-aquaMint transition font-semibold"
               >
                 Signup
               </Link>
