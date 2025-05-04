@@ -12,6 +12,8 @@ export default {
         aquaMint: "#A8DADC",
         skyBlue: "#61C0BF",
         white: "#FFFFFF",
+        softBeige: "#F2EBE3",
+        offWhite: "#FFFDF5",
       },
       backgroundImage: {
         gradientFade: "linear-gradient(to bottom, #E0F4F3, #F8F8F8)",

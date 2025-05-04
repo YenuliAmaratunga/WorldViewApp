@@ -65,7 +65,7 @@ function Home() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
-  
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -95,19 +95,18 @@ function Home() {
 
   return (
     <>
-    
       <Header />
       <main className="min-h-screen w-full bg-gradient-to-br from-aquaMint via-oceanGreen to-aquaMint p-6">
         <div className="flex-grow p-6 ">
           {/* Filters Row */}
-<div
-  className={`sticky top-[80px] z-40 p-4 flex flex-wrap gap-4 items-center justify-center transition duration-300 ${
-    scrolled
-      ? "bg-aquaMint/90 border border-aquaMint rounded-xl shadow-md"
-      : "bg-transparent"
-  }`}
->
-          <input
+          <div
+            className={`sticky top-[80px] z-40 p-4 flex flex-wrap gap-4 items-center justify-center transition duration-300 ${
+              scrolled
+                ? "bg-aquaMint/90 border border-aquaMint rounded-xl shadow-md"
+                : "bg-transparent"
+            }`}
+          >
+            <input
               type="text"
               placeholder="Search by name"
               onChange={(e) => {
@@ -143,7 +142,10 @@ function Home() {
             <div className="w-60">
               <Select
                 isMulti
-                options={languages.map((lang) => ({ value: lang, label: lang }))}
+                options={languages.map((lang) => ({
+                  value: lang,
+                  label: lang,
+                }))}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 placeholder="Filter by language(s)..."
@@ -155,8 +157,12 @@ function Home() {
                   } else {
                     getAllCountries().then((data) => {
                       const filtered = data.filter((country) => {
-                        const countryLangs = country.languages ? Object.values(country.languages) : [];
-                        return selected.every((lang) => countryLangs.includes(lang));
+                        const countryLangs = country.languages
+                          ? Object.values(country.languages)
+                          : [];
+                        return selected.every((lang) =>
+                          countryLangs.includes(lang)
+                        );
                       });
                       setCountries(filtered);
                     });
@@ -179,13 +185,18 @@ function Home() {
           {/* Country Cards */}
           <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6">
             {countries
-              .filter((country) => (showOnlyFavorites ? favorites.includes(country.cca3) : true))
+              .filter((country) =>
+                showOnlyFavorites ? favorites.includes(country.cca3) : true
+              )
               .map((country, index) => (
                 <li
                   key={index}
                   className="bg-white rounded-xl border-4 border-aquaMint p-4 hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] cursor-pointer"
                 >
-                  <Link to={`/country/${country.cca3}`} className="block space-y-2">
+                  <Link
+                    to={`/country/${country.cca3}`}
+                    className="block space-y-2"
+                  >
                     <img
                       src={country.flags.png}
                       alt={`Flag of ${country.name.common}`}
@@ -200,23 +211,34 @@ function Home() {
                           e.preventDefault();
                           toggleFavorite(country.cca3);
                         }}
-                        className={`text-xl ${favorites.includes(country.cca3) ? "text-red-500" : "text-gray-400"} hover:scale-110 transition`}
-                        title={favorites.includes(country.cca3) ? "Remove from Favorites" : "Add to Favorites"}
+                        className={`text-xl ${
+                          favorites.includes(country.cca3)
+                            ? "text-red-500"
+                            : "text-gray-400"
+                        } hover:scale-110 transition`}
+                        title={
+                          favorites.includes(country.cca3)
+                            ? "Remove from Favorites"
+                            : "Add to Favorites"
+                        }
                       >
                         {favorites.includes(country.cca3) ? "❤️" : "🤍"}
                       </button>
                     </div>
                     <p className="text-sm text-gray-600">
-                      🌍 Region: <span className="text-deepTeal font-medium">{country.region}</span>
+                      🌍 Region:{" "}
+                      <span className="text-deepTeal font-medium">
+                        {country.region}
+                      </span>
                     </p>
                   </Link>
                 </li>
               ))}
           </ul>
-        </div>   </main>
+        </div>{" "}
+      </main>
 
-        <Footer />  
-      
+      <Footer />
     </>
   );
 }

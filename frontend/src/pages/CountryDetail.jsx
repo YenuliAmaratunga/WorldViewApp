@@ -64,16 +64,16 @@ function CountryDetail() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gradient-to-b from-[#E0F4F3] to-[#F8F8F8] font-sans pb-16 pt-10">
+      <main className="min-h-screen w-full bg-gradient-to-br from-aquaMint via-oceanGreen to-aquaMint p-6">
         <div className="max-w-5xl mx-auto px-6">
           <Link
             to="/"
-            className="text-oceanGreen hover:underline text-sm font-medium inline-block mb-6"
+            className="text-oceanGreen hover:underline text-l font-medium inline-block mb-6"
           >
             ⬅ Back to countries
           </Link>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="bg-offWhite rounded-2xl shadow-xl p-8 border-4 border-oceanGreen">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
               <div>
                 <h1 className="text-4xl font-bold text-deepTeal">
