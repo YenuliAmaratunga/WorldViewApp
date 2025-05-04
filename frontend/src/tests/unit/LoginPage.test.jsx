@@ -9,7 +9,7 @@ describe("LoginPage", () => {
         <LoginPage />
       </BrowserRouter>
     );
-    expect(screen.getByRole("heading", { name: "Login" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Login to WorldViewApp" })).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
   });

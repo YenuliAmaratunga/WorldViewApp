@@ -9,7 +9,7 @@ describe("SignupPage", () => {
         <SignupPage />
       </BrowserRouter>
     );
-    expect(screen.getByRole("heading", { name: "Sign Up" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Create your WorldViewApp Account" })).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Name")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();

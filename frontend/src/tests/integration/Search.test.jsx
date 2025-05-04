@@ -12,12 +12,14 @@ vi.mock("../../services/countryService", () => ({
         region: "Asia",
         cca3: "LKA",
         languages: { sin: "Sinhala" },
+        flags: { png: "https://flagcdn.com/w320/lk.png" }
       },
       {
         name: { common: "France" },
         region: "Europe",
         cca3: "FRA",
         languages: { fra: "French" },
+        flags: { png: "https://flagcdn.com/w320/fr.png" }
       },
     ])
   ),
@@ -28,6 +30,7 @@ vi.mock("../../services/countryService", () => ({
         region: "Asia",
         cca3: "LKA",
         languages: { sin: "Sinhala" },
+        flags: { png: "https://flagcdn.com/w320/lk.png" }
       },
     ])
   ),
