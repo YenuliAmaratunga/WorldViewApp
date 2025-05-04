@@ -7,11 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        darkGreen: "#103713",
-        oliveGreen: "#628B35",
-        lightGreen: "#A3C394",
-        softBeige: "#F2EBE3",
-        offWhite: "#FFFDF5",
+        deepTeal: "#003E3E",
+        oceanGreen: "#02615A",
+        aquaMint: "#A8DADC",
+        skyBlue: "#61C0BF",
+        white: "#FFFFFF",
+      },
+      backgroundImage: {
+        gradientFade: "linear-gradient(to bottom, #E0F4F3, #F8F8F8)",
       },
     },    
   },

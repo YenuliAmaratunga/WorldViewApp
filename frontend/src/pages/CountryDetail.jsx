@@ -10,7 +10,6 @@ function CountryDetail() {
   const [user, setUser] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
-  // Fetch the selected country from the API
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/alpha/${code}`)
       .then((res) => res.json())
@@ -18,7 +17,6 @@ function CountryDetail() {
       .catch((err) => console.error("Error loading country", err));
   }, [code]);
 
-  // Load user and their favorites from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -66,47 +64,68 @@ function CountryDetail() {
   return (
     <>
       <Header />
-      <main className="pb-12"> 
-    <div className="min-h-screen bg-gray-50 p-6 font-sans">
-      <Link to="/" className="text-blue-600 hover:underline mb-4 inline-block">
-        ⬅ Back to countries
-      </Link>
+      <main className="min-h-screen bg-gradient-to-b from-[#E0F4F3] to-[#F8F8F8] font-sans pb-16 pt-10">
+        <div className="max-w-5xl mx-auto px-6">
+          <Link
+            to="/"
+            className="text-oceanGreen hover:underline text-sm font-medium inline-block mb-6"
+          >
+            ⬅ Back to countries
+          </Link>
 
-      <div className="flex items-center gap-4 mb-6">
-        <h1 className="text-3xl font-bold">{country.name.common}</h1>
-        <button onClick={toggleFavorite} className="text-2xl">
-          {isFavorited ? "❤️" : "🤍"}
-        </button>
-      </div>
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+              <div>
+                <h1 className="text-4xl font-bold text-deepTeal">
+                  {country.name.common}
+                </h1>
+                <p className="text-sm text-gray-600 italic">
+                  {country.name.official}
+                </p>
+              </div>
+              <button
+                onClick={toggleFavorite}
+                className={`text-3xl transition transform hover:scale-110 ${
+                  isFavorited ? "text-red-500" : "text-gray-400"
+                }`}
+                title={isFavorited ? "Remove from Favorites" : "Add to Favorites"}
+              >
+                {isFavorited ? "❤️" : "🤍"}
+              </button>
+            </div>
 
-      <img
-        src={country.flags.png}
-        alt={`Flag of ${country.name.common}`}
-        title={`This is the official flag of ${country.name.common}`}
-        className="w-60 mb-6 shadow-md rounded"
-      />
+            {/* Flag Centered */}
+            <div className="flex justify-center mb-8">
+              <img
+                src={country.flags.png}
+                alt={`Flag of ${country.name.common}`}
+                title={`Flag of ${country.name.common}`}
+                className="w-72 h-auto rounded-xl shadow-md border border-aquaMint"
+              />
+            </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div>
-          <p><strong>Official Name:</strong> {country.name.official}</p>
-          <p><strong>Capital:</strong> {country.capital?.[0] || "N/A"}</p>
-          <p><strong>Region:</strong> {country.region}</p>
-          <p><strong>Population:</strong> {country.population.toLocaleString()}</p>
+            {/* Info Grid */}
+            <div className="grid gap-6 md:grid-cols-2 text-deepTeal">
+              <div className="space-y-2">
+                <p><strong>Capital:</strong> {country.capital?.[0] || "N/A"}</p>
+                <p><strong>Region:</strong> {country.region}</p>
+                <p><strong>Population:</strong> {country.population.toLocaleString()}</p>
+              </div>
+
+              <div className="space-y-2">
+                <p><strong>Languages:</strong></p>
+                <ul className="list-disc list-inside text-sm">
+                  {country.languages
+                    ? Object.values(country.languages).map((lang, index) => (
+                        <li key={index}>{lang}</li>
+                      ))
+                    : <li>N/A</li>}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <p><strong>Languages:</strong></p>
-          <ul className="list-disc pl-6">
-            {country.languages
-              ? Object.values(country.languages).map((lang, index) => (
-                  <li key={index}>{lang}</li>
-                ))
-              : <li>N/A</li>}
-          </ul>
-        </div>
-      </div>
-    </div>
-    </main>
+      </main>
       <Footer />
     </>
   );

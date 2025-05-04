@@ -17,21 +17,36 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-darkGreen text-[#FFFDF5] p-4 font-[Kalnia] flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold hover:underline">
-        🌍 WorldViewApp
-      </Link>
-      <div className="text-sm">
-        {user ? (
-          <button onClick={handleLogout} className="hover:underline">
-            Logout
-          </button>
-        ) : (
-          <>
-            <Link to="/login" className="mr-4 hover:underline">Login</Link>
-            <Link to="/signup" className="hover:underline">Signup</Link>
-          </>
-        )}
+    <header className="bg-deepTeal text-white font-[Kalnia] shadow-md">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-white hover:text-skyBlue transition">
+          🌍 WorldViewApp
+        </Link>
+        <div className="text-sm space-x-4">
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="text-white hover:text-aquaMint transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="text-white hover:text-aquaMint transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="text-white hover:text-aquaMint transition"
+              >
+                Signup
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
