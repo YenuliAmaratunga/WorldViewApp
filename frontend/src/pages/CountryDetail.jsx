@@ -5,6 +5,21 @@ import Footer from "../components/Footer";
 import { API_BASE_URL } from "../config";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
+import L from "leaflet";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+import "leaflet/dist/leaflet.css";
+
+// Fix Leaflet's missing marker icons in deployed builds
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 function CountryDetail() {
   const { code } = useParams();
   const [country, setCountry] = useState(null);
