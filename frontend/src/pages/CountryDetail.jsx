@@ -6,6 +6,21 @@ import { API_BASE_URL } from "../config";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
+import { useMap } from "react-leaflet";
+
+// Component to update the map center on country change
+function MapUpdater({ latlng }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (latlng) {
+      map.setView(latlng, 5); // 5 = default zoom
+    }
+  }, [latlng, map]);
+
+  return null;
+}
+
 function CountryDetail() {
   const { code } = useParams();
   const [country, setCountry] = useState(null);
@@ -147,6 +162,9 @@ function CountryDetail() {
                   <Marker position={country.latlng}>
                     <Popup>{country.name.common}</Popup>
                   </Marker>
+
+                  {/* This updates the map center when latlng changes */}
+                  <MapUpdater latlng={country.latlng} />
                 </MapContainer>
               </div>
             )}
