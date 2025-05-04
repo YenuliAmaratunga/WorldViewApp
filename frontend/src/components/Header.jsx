@@ -17,7 +17,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-deepTeal text-white font-kalnia shadow-md">
+    <header className="bg-deepTeal text-white font-kalnia shadow-md border-b-4 border-aquaMint sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
         {/* App Logo/Name */}
         <Link
@@ -31,11 +31,11 @@ const Header = () => {
         <div className="flex items-center space-x-6 text-base">
           {user ? (
             <button
-            onClick={handleLogout}
-            className="text-white hover:text-aquaMint transition font-semibold"
-          >
-            Logout
-          </button>
+              onClick={handleLogout}
+              className="text-white hover:text-aquaMint transition font-semibold"
+            >
+              Logout
+            </button>
           ) : (
             <>
               <Link
@@ -57,5 +57,6 @@ const Header = () => {
     </header>
   );
 };
+
 
 export default Header;
