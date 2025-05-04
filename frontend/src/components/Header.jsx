@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -13,6 +14,7 @@ const Header = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+    toast.info("You have been logged out.");
     window.location.reload();
   };
 

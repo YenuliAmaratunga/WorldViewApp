@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
+import { toast } from "react-toastify";
 
 function SignupPage() {
   const [name, setName] = useState("");
@@ -14,35 +15,37 @@ function SignupPage() {
   const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     // Email regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return setError("Please enter a valid email address.");
     }
-  
+
     // Password regex validation
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordRegex.test(password)) {
-      return setError("Password must be at least 8 characters with letters and numbers.");
+      return setError(
+        "Password must be at least 8 characters with letters and numbers."
+      );
     }
-  
+
     try {
       const res = await axios.post(`${API_BASE_URL}/api/users/register`, {
         name,
         email,
         password,
       });
-  
+
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      toast.success("Signup successful! Please log in.");
       navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message || "Signup failed");
+      toast.error(err.response?.data?.message || "Signup failed");
     }
-  };  
+  };
 
- 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-deepTeal via-oceanGreen to-aquaMint">
       <div className="flex-grow flex items-center justify-center">

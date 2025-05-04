@@ -5,6 +5,7 @@ import "./index.css";
 import 'leaflet/dist/leaflet.css';
 import "./fixLeafletIcons";
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <App />
