@@ -90,6 +90,12 @@ function Home() {
 
       const data = await res.json();
       setFavorites(data.favorites);
+      // Show toast message depending on new favorite state
+      if (data.favorites.includes(code)) {
+        toast.success("Added to favorites!");
+      } else {
+        toast.info("Removed from favorites.");
+      }
     } catch (err) {
       console.error("Failed to toggle favorite:", err);
     }

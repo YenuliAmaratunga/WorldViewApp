@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { API_BASE_URL } from "../config";
+import { toast } from "react-toastify";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -75,7 +76,7 @@ function CountryDetail() {
   const toggleFavorite = async () => {
     if (!user || !user.token) {
       //alert("Please log in to favorite this country.");
-      toast.info("Please log in to favorite this country.");
+      toast.info("Please log in first to favorite this country.");
       return;
     }
 
@@ -91,6 +92,12 @@ function CountryDetail() {
 
       const data = await res.json();
       setFavorites(data.favorites);
+      // Show toast message depending on new favorite state
+      if (data.favorites.includes(code)) {
+        toast.success("Added to favorites!");
+      } else {
+        toast.info("Removed from favorites.");
+      }
     } catch (err) {
       console.error("Failed to toggle favorite:", err);
     }
