@@ -10,7 +10,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { API_BASE_URL } from "../config";
 
-function App() {
+function Home() {
   //State variable to hold the fetched array of country data
   const [countries, setCountries] = useState([]);
   const [regions, setRegions] = useState([]); // will hold the list of unique regions
@@ -220,4 +220,4 @@ if (storedToken && storedUser) {
   );
 }
 
-export default App;
+export default Home;
