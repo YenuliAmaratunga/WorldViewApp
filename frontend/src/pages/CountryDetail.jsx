@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from "../config";
 
 function CountryDetail() {
   const { code } = useParams();
@@ -25,7 +26,7 @@ function CountryDetail() {
     if (storedToken && storedUser) {
       setUser({ ...storedUser, token: storedToken });
 
-      fetch("http://localhost:5000/api/users/favorites", {
+      fetch("${API_BASE_URL}/api/users/favorites", {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
@@ -42,7 +43,7 @@ function CountryDetail() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/favorites", {
+      const res = await fetch("${API_BASE_URL}/api/users/favorites", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

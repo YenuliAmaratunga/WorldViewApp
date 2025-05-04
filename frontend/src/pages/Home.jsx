@@ -8,6 +8,7 @@ import {
 } from "../services/countryService";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from "../config";
 
 function App() {
   //State variable to hold the fetched array of country data
@@ -48,7 +49,7 @@ const storedUser = JSON.parse(localStorage.getItem("user"));
 if (storedToken && storedUser) {
   setUser({ ...storedUser, token: storedToken });
 
-  fetch("http://localhost:5000/api/users/favorites", {
+  fetch("${API_BASE_URL}/api/users/favorites", {
     headers: {
       Authorization: `Bearer ${storedToken}`,
     },
@@ -67,7 +68,7 @@ if (storedToken && storedUser) {
     }
   
     try {
-      const res = await fetch("http://localhost:5000/api/users/favorites", {
+      const res = await fetch("${API_BASE_URL}/api/users/favorites", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
