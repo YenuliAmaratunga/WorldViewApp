@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { API_BASE_URL } from "../config";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 function CountryDetail() {
   const { code } = useParams();
@@ -20,11 +21,15 @@ function CountryDetail() {
 
         // Fetch bordering country names using CCA3 codes
         if (countryData.borders?.length > 0) {
-          const borderRes = await fetch(`https://restcountries.com/v3.1/alpha?codes=${countryData.borders.join(",")}`);
+          const borderRes = await fetch(
+            `https://restcountries.com/v3.1/alpha?codes=${countryData.borders.join(
+              ","
+            )}`
+          );
           const borderData = await borderRes.json();
-          const formattedBorders = borderData.map(c => ({
+          const formattedBorders = borderData.map((c) => ({
             name: c.name.common,
-            cca3: c.cca3
+            cca3: c.cca3,
           }));
           setBorders(formattedBorders);
         } else {
@@ -105,7 +110,9 @@ function CountryDetail() {
                 className={`text-3xl transition transform hover:scale-110 ${
                   isFavorited ? "text-red-500" : "text-gray-400"
                 }`}
-                title={isFavorited ? "Remove from Favorites" : "Add to Favorites"}
+                title={
+                  isFavorited ? "Remove from Favorites" : "Add to Favorites"
+                }
               >
                 {isFavorited ? "❤️" : "🤍"}
               </button>
@@ -121,22 +128,55 @@ function CountryDetail() {
               />
             </div>
 
+            {country.latlng && (
+              <div className="my-6">
+                <h2 className="text-xl font-bold text-deepTeal mb-2">
+                  Location on Map:
+                </h2>
+                <MapContainer
+                  center={country.latlng}
+                  zoom={5}
+                  scrollWheelZoom={false}
+                  className="h-64 w-full rounded-xl shadow-md border border-aquaMint"
+                >
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <Marker position={country.latlng}>
+                    <Popup>{country.name.common}</Popup>
+                  </Marker>
+                </MapContainer>
+              </div>
+            )}
+
             {/* Info Grid */}
             <div className="grid gap-6 md:grid-cols-2 text-deepTeal">
               <div className="space-y-2">
-                <p><strong>Capital:</strong> {country.capital?.[0] || "N/A"}</p>
-                <p><strong>Region:</strong> {country.region}</p>
-                <p><strong>Population:</strong> {country.population.toLocaleString()}</p>
+                <p>
+                  <strong>Capital:</strong> {country.capital?.[0] || "N/A"}
+                </p>
+                <p>
+                  <strong>Region:</strong> {country.region}
+                </p>
+                <p>
+                  <strong>Population:</strong>{" "}
+                  {country.population.toLocaleString()}
+                </p>
               </div>
 
               <div className="space-y-2">
-                <p><strong>Languages:</strong></p>
+                <p>
+                  <strong>Languages:</strong>
+                </p>
                 <ul className="list-disc list-inside text-sm">
-                  {country.languages
-                    ? Object.values(country.languages).map((lang, index) => (
-                        <li key={index}>{lang}</li>
-                      ))
-                    : <li>N/A</li>}
+                  {country.languages ? (
+                    Object.values(country.languages).map((lang, index) => (
+                      <li key={index}>{lang}</li>
+                    ))
+                  ) : (
+                    <li>N/A</li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -144,7 +184,9 @@ function CountryDetail() {
             {/* Bordering Countries */}
             {borders.length > 0 && (
               <div className="mt-10">
-                <h2 className="text-xl font-bold text-deepTeal mb-2">Bordering Countries:</h2>
+                <h2 className="text-xl font-bold text-deepTeal mb-2">
+                  Bordering Countries:
+                </h2>
                 <ul className="flex flex-wrap gap-3 text-sm">
                   {borders.map((border, i) => (
                     <li key={i}>
