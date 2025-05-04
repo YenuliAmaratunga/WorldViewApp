@@ -49,7 +49,7 @@ const storedUser = JSON.parse(localStorage.getItem("user"));
 if (storedToken && storedUser) {
   setUser({ ...storedUser, token: storedToken });
 
-  fetch("${API_BASE_URL}/api/users/favorites", {
+  fetch(`${API_BASE_URL}/api/users/favorites`, {
     headers: {
       Authorization: `Bearer ${storedToken}`,
     },
@@ -68,7 +68,7 @@ if (storedToken && storedUser) {
     }
   
     try {
-      const res = await fetch("${API_BASE_URL}/api/users/favorites", {
+      const res = await fetch(`${API_BASE_URL}/api/users/favorites`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

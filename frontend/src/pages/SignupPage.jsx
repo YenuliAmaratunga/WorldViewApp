@@ -28,7 +28,7 @@ function SignupPage() {
     }
   
     try {
-      const res = await axios.post("${API_BASE_URL}/api/users/register", {
+      const res = await axios.post(`${API_BASE_URL}/api/users/register`, {
         name,
         email,
         password,

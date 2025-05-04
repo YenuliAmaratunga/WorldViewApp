@@ -26,7 +26,7 @@ function CountryDetail() {
     if (storedToken && storedUser) {
       setUser({ ...storedUser, token: storedToken });
 
-      fetch("${API_BASE_URL}/api/users/favorites", {
+      fetch(`${API_BASE_URL}/api/users/favorites`, {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
@@ -43,7 +43,7 @@ function CountryDetail() {
     }
 
     try {
-      const res = await fetch("${API_BASE_URL}/api/users/favorites", {
+      const res = await fetch(`${API_BASE_URL}/api/users/favorites`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
