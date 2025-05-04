@@ -14,7 +14,7 @@ const Header = () => {
     localStorage.clear();
     setUser(null);
     toast.info("You have been logged out.");
-    navigate("/"); // Go back to home
+    window.location.reload();
   };
 
   return (
@@ -58,5 +58,6 @@ const Header = () => {
     </header>
   );
 };
+
 
 export default Header;
