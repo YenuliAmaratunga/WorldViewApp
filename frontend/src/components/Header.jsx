@@ -14,11 +14,7 @@ const Header = () => {
     localStorage.clear();
     setUser(null);
     toast.info("You have been logged out.");
-
-    // Delay reload to allow toast to appear
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000); // 1 second is enough
+    navigate("/"); // Go back to home
   };
 
   return (
